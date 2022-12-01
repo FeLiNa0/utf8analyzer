@@ -88,7 +88,7 @@ char** utf8chars(char* s, size_t max, size_t* _utf8length, size_t* _max_codepoin
 void byte_analysis(size_t i, char* s) {
   size_t len = strnlen(s, MAX_STRING_SIZE);
   char* quote = "";
-  printf("%-4d bytes in #%-4d %*s%s\n", i, len, 5, quote, s, quote);
+  printf("%-4d bytes in #%-4d %*s%s\n", len, i, 5, quote, s, quote);
 
   int j = 0;
   while (s[j]) {
