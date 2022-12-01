@@ -10,8 +10,9 @@ This program can detect some types of malformatted UTF-8 strings.
 $ ./utf8analyzer
 USAGE: ./utf8analyzer [strings to analyze]
     prints out each utf-8 codepoint, related byte sequences, and catches certain malformatted utf-8 strings
+
 $ ./utf8analyzer test strings 🐠аaсдñ²不 012345
-1    bytes in #4         test
+4    bytes in #1         test
 byte     1:  116 (0x74)  t
 byte     2:  101 (0x65)  e
 byte     3:  115 (0x73)  s
@@ -19,7 +20,7 @@ byte     4:  116 (0x74)  t
 
 4    utf8 codepoints in #1    (all ascii)   test
 
-2    bytes in #7         strings
+7    bytes in #2         strings
 byte     1:  115 (0x73)  s
 byte     2:  116 (0x74)  t
 byte     3:  114 (0x72)  r
@@ -30,7 +31,7 @@ byte     7:  115 (0x73)  s
 
 7    utf8 codepoints in #2    (all ascii)   strings
 
-3    bytes in #18        🐠аaсдñ²不
+18   bytes in #3         🐠аaсдñ²不
 byte     1:  240 (0xf0)  (not ascii)
 byte     2:  159 (0x9f)  (not ascii)
 byte     3:  144 (0x90)  (not ascii)
@@ -60,7 +61,7 @@ utf8     6:  195 (0xc3)  177 (0xb1)                               ñ
 utf8     7:  194 (0xc2)  178 (0xb2)                               ²
 utf8     8:  228 (0xe4)  184 (0xb8)  141 (0x8d)                   不
 
-4    bytes in #6         012345
+6    bytes in #4         012345
 byte     1:   48 (0x30)  0
 byte     2:   49 (0x31)  1
 byte     3:   50 (0x32)  2
