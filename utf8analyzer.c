@@ -158,18 +158,38 @@ bool utf8analysis(size_t i, char* s, bool skip_ascii, bool add_python_quotes) {
   return true;
 }
 
+bool bool_env_var(const char* envvar_name) {
+  const char* envvar = getenv(envvar_name);
+  return !(envvar == NULL || *envvar == (char)0);
+}
+
 int main(int argc, char** argv) {
   if (argc > 1) {
-    for (size_t i = 1; i < argc; i++) {
-      byte_analysis(i, argv[i]);
-      printf("\n");
+    const bool RUN_BYTE_ANALYSIS = bool_env_var("RUN_BYTE_ANALYSIS");
+    const bool RUN_UTF8_ANALYSIS = !bool_env_var("NO_RUN_UTF8_ANALYSIS");
+    const bool SKIP_ASCII = !bool_env_var("NO_SKIP_ASCII");
+    const bool ADD_PYTHON_QUOTES = bool_env_var("ADD_PYTHON_QUOTES");
 
-      utf8analysis(i, argv[i], true, false);
-      printf("\n");
+    for (size_t i = 1; i < argc; i++) {
+      if (RUN_BYTE_ANALYSIS) {
+        byte_analysis(i, argv[i]);
+        printf("\n");
+      }
+
+      if (RUN_UTF8_ANALYSIS) {
+        utf8analysis(i, argv[i], SKIP_ASCII, ADD_PYTHON_QUOTES);
+        printf("\n");
+      }
     }
   } else {
     printf("USAGE: %s [strings to analyze]\n", argv[0]);
-    printf("    prints out each utf-8 codepoint, related byte sequences, and catches certain malformatted utf-8 strings\n");
+    printf("    prints out UTF8 and byte information about input, and catches certain malformatted utf-8 strings\n");
+    printf("\n");
+    printf("  env vars:\n\n");
+    printf("    RUN_BYTE_ANALYSIS - set this to run a byte-by-byte analysis\n");
+    printf("    NO_RUN_UTF8_ANALYSIS - set this to not run a utf8 codepoint analysis\n");
+    printf("    NO_SKIP_ASCII - set this to print utf8 analysis of ASCII characters\n");
+    printf("    ADD_PYTHON_QUOTES - set this to print quotes for human readability\n");
   }
   return 0;
 }
